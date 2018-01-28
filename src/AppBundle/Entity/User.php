@@ -13,6 +13,18 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
+     * Many Users have Many Categories.
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="users")
+     * @ORM\JoinTable(name="users_groups")
+     */
+    private $categories;
+
+    public function __construct()
+    {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -61,6 +73,11 @@ class User
     public function getName()
     {
         return $this->name;
+    }
+
+    public function addNewCategory(Category $category)
+    {
+        $this->categories[] = $category;
     }
 }
 

@@ -12,6 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+
+    /**
+     * Many Groups have Many Users.
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="categories")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -62,5 +74,13 @@ class Category
     {
         return $this->sex;
     }
+
+    public function addUser(User $user)
+    {
+        $user->addNewCategory($this);
+        $this->users[] = $user;
+    }
+
+
 }
 
